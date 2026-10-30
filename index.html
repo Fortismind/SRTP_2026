@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="基于多模态的脑肿瘤纵向生成与预后预测。面向科研验证，探索从静态影像快照走向可解释的肿瘤演化轨迹。"
+    />
+    <meta name="theme-color" content="#080b0d" />
+    <meta property="og:title" content="PRISM · 脑肿瘤纵向生成与预后预测" />
+    <meta
+      property="og:description"
+      content="从静态影像观察到纵向演化推演。多模态 MRI、条件生成、语言条件编码与生存预后。"
+    />
+    <meta property="og:type" content="website" />
+    <title>PRISM · 脑肿瘤纵向生成与预后预测</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="image" href="./assets/gtv-overlay.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <div class="scroll-progress" aria-hidden="true">
+      <span id="scroll-progress-bar"></span>
+    </div>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="site-header" id="site-header">
+      <a class="brand" href="#top" aria-label="PRISM 项目首页">
+        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
+          <path d="M22 3 39 12.5v19L22 41 5 31.5v-19L22 3Z" />
+          <path d="M22 11v22M11 17l22 10M33 17 11 27" />
+          <circle cx="22" cy="22" r="3.2" />
+        </svg>
+        <span class="brand-type">
+          <strong>PRISM</strong>
+          <small>SRTP / 2026—27</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="主导航">
+        <a href="#research">研究问题</a>
+        <a href="#data-story">数据故事</a>
+        <a href="#build-spec">实验构型</a>
+        <a href="#language">语言实验</a>
+        <a href="#route">技术路线</a>
+        <a href="#prototype">当前原型</a>
+        <a href="#evaluation">评价体系</a>
+        <a href="#timeline">项目进程</a>
+      </nav>
+
+      <div class="header-actions">
+        <button
+          class="command-trigger"
+          type="button"
+          aria-label="打开研究命令面板"
+          aria-controls="command-palette"
+          aria-expanded="false"
+        >
+          <span class="command-symbol">⌘</span>
+          <span>Build</span>
+          <kbd>K</kbd>
+        </button>
+        <a class="header-cta" href="#prototype">
+          查看原型
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        </a>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="打开导航菜单"
+          aria-controls="main-nav"
+          aria-expanded="false"
+        >
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <canvas class="hero-canvas" id="signal-canvas" aria-hidden="true"></canvas>
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-copy reveal">
+          <div class="eyebrow">
+            <span class="live-dot"></span>
+            东南大学校院级 SRTP · 创新训练项目
+          </div>
+          <h1 id="hero-title">
+            <span>让脑肿瘤的</span>
+            <span class="hero-title-accent">下一步</span>
+            <span>可以被预见。</span>
+          </h1>
+          <p class="hero-lede">
+            从静态影像快照，到治疗感知的纵向演化轨迹。我们探索多模态 MRI
+            生成与生存预后之间，一条可验证、可复核的连接路径。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#research">
+              了解研究框架
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </a>
+            <a class="button button-ghost" href="#prototype">
+              浏览当前原型
+            </a>
+          </div>
+          <div class="hero-note">
+            <span>01</span>
+            <p>科研验证项目，不作为临床诊断或治疗决策系统。</p>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal reveal-delay-1" aria-label="纵向影像研究概念示意">
+          <div class="scan-card tilt-card" id="scan-card">
+            <div class="scan-card-head">
+              <div class="window-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <span>STUDY / LONGITUDINAL WINDOW</span>
+              <span class="scan-status"><i></i> RESEARCH VIEW</span>
+            </div>
+            <div class="scan-viewport">
+              <img
+                class="scan-image"
+                src="./assets/gtv-overlay.png"
+                alt="脑肿瘤 T1GD MRI 切片与 GTV 轮廓叠加"
+              />
+              <div class="scan-grid" aria-hidden="true"></div>
+              <div class="crosshair crosshair-x" aria-hidden="true"></div>
+              <div class="crosshair crosshair-y" aria-hidden="true"></div>
+              <div class="scan-sweep" aria-hidden="true"></div>
+              <span class="scan-label scan-label-left">T1GD + GTV</span>
+              <span class="scan-label scan-label-right">SLICE Z=149</span>
+              <div class="scan-focus" aria-hidden="true"></div>
+              <div class="scan-axis" aria-hidden="true">R</div>
+            </div>
+
+            <div class="trajectory-panel">
+              <div class="trajectory-heading">
+                <span>EVOLUTION CONDITION</span>
+                <span>TRAJECTORY / CONCEPT</span>
+              </div>
+              <div class="trajectory-line">
+                <div class="trajectory-axis">
+                  <i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <span class="trajectory-node node-a">T0</span>
+                <span class="trajectory-node node-b">T+1</span>
+                <span class="trajectory-node node-c">T+N</span>
+              </div>
+              <div class="trajectory-legend">
+                <span><i class="legend-input"></i>历史影像</span>
+                <span><i class="legend-cond"></i>时间 / 治疗</span>
+                <span><i class="legend-output"></i>未来状态</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-note floating-note-a">
+            <span class="float-kicker">INPUT</span>
+            <strong>4 MODALITIES</strong>
+            <small>T1 · T1CE · T2 · FLAIR</small>
+          </div>
+          <div class="floating-note floating-note-b">
+            <span class="float-kicker">CONDITION</span>
+            <strong>IMAGE + Δt</strong>
+            <small>结构化临床变量编码</small>
+          </div>
+          <div class="visual-orbit orbit-a" aria-hidden="true"></div>
+          <div class="visual-orbit orbit-b" aria-hidden="true"></div>
+        </div>
+
+        <div class="hero-index" aria-hidden="true">
+          <span>01</span>
+          <div></div>
+          <span>PROJECT OVERVIEW</span>
+        </div>
+      </section>
+
+      <section class="signal-strip" aria-label="项目核心特征">
+        <div class="signal-item reveal">
+          <span class="signal-number">04</span>
+          <div>
+            <strong>MRI 模态</strong>
+            <small>多模态语义一致性</small>
+          </div>
+        </div>
+        <div class="signal-item reveal">
+          <span class="signal-number">Δt</span>
+          <div>
+            <strong>纵向条件</strong>
+            <small>随访间隔与治疗信息</small>
+          </div>
+        </div>
+        <div class="signal-item reveal">
+          <span class="signal-number">01</span>
+          <div>
+            <strong>患者级验证</strong>
+            <small>避免数据泄漏与重复样本</small>
+          </div>
+        </div>
+        <div class="signal-item reveal">
+          <span class="signal-number">2×</span>
+          <div>
+            <strong>双轨评价</strong>
+            <small>影像质量 × 预后效用</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="section research" id="research">
+        <div class="section-heading reveal">
+          <div class="section-index">01 / RESEARCH PREMISE</div>
+          <h2>静态快照，<br /><em>回答不了</em>动态演化。</h2>
+          <p>
+            现有模型常在单一时间点提取影像特征，再映射到生存标签。但肿瘤在治疗与时间作用下持续改变，
+            静态判别与疾病演进之间存在明显错位。
+          </p>
+        </div>
+
+        <div class="paradigm-shift reveal">
+          <article class="paradigm-card paradigm-old">
+            <div class="paradigm-top">
+              <span>CONVENTIONAL</span>
+              <span>01</span>
+            </div>
+            <div class="snapshot-visual" aria-hidden="true">
+              <img src="./assets/adc-slice.png" alt="" />
+              <span class="scan-tag">SINGLE SCAN</span>
+              <span class="scan-tag scan-tag-muted">STATIC</span>
+            </div>
+            <h3>单时间点判别</h3>
+            <p>影像快照 → 提取特征 → 生存标签</p>
+            <div class="paradigm-state">
+              <span class="state-dot"></span>
+              <span>无法回答“接下来会怎样变化”</span>
+            </div>
+          </article>
+
+          <div class="shift-bridge" aria-hidden="true">
+            <span>RESEARCH SHIFT</span>
+            <svg viewBox="0 0 78 24">
+              <path d="M2 12h68M61 4l10 8-10 8" />
+            </svg>
+          </div>
+
+          <article class="paradigm-card paradigm-new">
+            <div class="paradigm-top">
+              <span>PRISM PROPOSAL</span>
+              <span>02</span>
+            </div>
+            <div class="trajectory-visual" aria-label="从历史时间点到未来时间点的纵向影像序列">
+              <div class="mini-scan mini-scan-a">
+                <img src="./assets/adc-slice.png" alt="" />
+                <span>T0</span>
+              </div>
+              <div class="mini-scan mini-scan-b">
+                <img src="./assets/gtv-overlay.png" alt="" />
+                <span>T+1</span>
+              </div>
+              <div class="mini-scan mini-scan-c">
+                <div class="synthetic-scan"></div>
+                <span>T+N</span>
+              </div>
+              <svg class="trajectory-vector" viewBox="0 0 500 120" aria-hidden="true">
+                <path d="M20 78 C120 12, 220 108, 320 47 S440 27, 480 38" />
+                <circle cx="20" cy="78" r="3" />
+                <circle cx="480" cy="38" r="3" />
+              </svg>
+            </div>
+            <h3>纵向生成轨迹</h3>
+            <p>历史影像 + 治疗 / Δt → 未来状态</p>
+            <div class="paradigm-state active">
+              <span class="state-dot"></span>
+              <span>把生成轨迹作为预后推理的中间表征</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="research-question reveal">
+          <span>核心研究问题</span>
+          <blockquote>
+            从生成轨迹中提取的动态特征，能否为生存风险分层提供超越单时间点静态影像的<em>增量预后信息</em>？
+          </blockquote>
+          <div class="question-mark" aria-hidden="true">?</div>
+        </div>
+      </section>
+
+      <section class="data-story" id="data-story" aria-labelledby="story-title">
+        <div class="story-intro">
+          <div class="story-intro-top">
+            <span class="story-kicker">02 / DATA STORY</span>
+            <span class="story-live-label"><i></i> LIVE DOT FIELD / SCROLL TO MORPH</span>
+          </div>
+          <div class="story-intro-grid">
+            <h2 id="story-title">从影像结构，到<br /><em>可读的证据。</em></h2>
+            <p>
+              真实 MRI 的亮度被采样为点阵；随着滚动，点阵连续重组为本次原型运行的四模态
+              PSNR 记录。变化来自数据，不来自装饰。
+            </p>
+          </div>
+        </div>
+
+        <div class="story-scrolly" id="story-scrolly">
+          <div class="story-sticky">
+            <div class="story-stage">
+              <div class="story-plot-panel">
+                <div class="story-plot-head">
+                  <span>MRI DOT FIELD → PSNR</span>
+                  <span>MED-DDPM · 2026.10.25 · SINGLE CASE</span>
+                </div>
+                <div class="story-canvas-wrap">
+                  <canvas id="data-story-canvas" role="img" aria-label="真实 MRI 点阵重组为四模态 PSNR 指标">
+                    T1 14.69 dB，T1CE 14.75 dB，T2 15.76 dB，FLAIR 11.23 dB。
+                  </canvas>
+                  <div class="story-axis-note">SOURCE / adc-slice.png · OUTPUT / PSNR dB</div>
+                  <div class="story-drawn-label">
+                    <span id="story-step-number">01</span>
+                    <div>
+                      <small>MORPH PROGRESS</small>
+                      <strong id="story-drawn-value">IMAGE / DOT FIELD</strong>
+                    </div>
+                  </div>
+                </div>
+                <div class="story-plot-foot">
+                  <span>SOURCE / official_brats · metrics.json</span>
+                  <span>NOT FINAL PERFORMANCE</span>
+                </div>
+              </div>
+
+              <div class="story-narrative">
+                <div class="story-step-progress" aria-hidden="true">
+                  <span class="is-active"></span><span></span><span></span>
+                </div>
+
+                <article class="story-step is-active" data-story-step="0" aria-hidden="false">
+                  <span class="story-chapter">01 / SAMPLE THE IMAGE</span>
+                  <h3>让影像先成为可计算的点。</h3>
+                  <p>
+                    每一枚点都来自真实 MRI 切片的亮度采样。点阵保留影像轮廓，
+                    也让下一步的连续变形拥有清楚的视觉起点。
+                  </p>
+                  <div class="story-signal-note">
+                    <span>INPUT / IMAGE</span>
+                    <strong>70 × 70 LUMINANCE FIELD</strong>
+                  </div>
+                </article>
+
+                <article class="story-step" data-story-step="1" aria-hidden="true">
+                  <span class="story-chapter">02 / MORPH INTO DATA</span>
+                  <h3>继续滚动，结构重新排列。</h3>
+                  <p>
+                    T1、T1CE、T2、FLAIR 分别为 <strong>14.69 / 14.75 / 15.76 / 11.23 dB</strong>。
+                    点阵逐点溶解，再汇聚成四组同一尺度的指标。
+                  </p>
+                  <div class="story-mini-ledger">
+                    <span><i class="lead-blue"></i>低于本轮均值</span>
+                    <span><i class="lead-red"></i>高于本轮均值</span>
+                  </div>
+                </article>
+
+                <article class="story-step" data-story-step="2" aria-hidden="true">
+                  <span class="story-chapter">03 / HOLD THE CLAIM</span>
+                  <h3>数据停在这里，结论不能越界。</h3>
+                  <p>
+                    这轮均值约为 <strong>14.11 dB</strong>，只能作为当前原型的起点。
+                    真正需要验证的是患者级留出集上的稳定性，以及纵向轨迹是否提供预后增量。
+                  </p>
+                  <div class="story-next">
+                    <span>NEXT /</span>
+                    <div>PATIENT-LEVEL</div>
+                    <div>LONGITUDINAL</div>
+                    <div class="is-empty">?</div>
+                  </div>
+                </article>
+
+                <div class="story-scroll-hint">
+                  <span>SCROLL TO MORPH</span>
+                  <svg viewBox="0 0 14 24" aria-hidden="true">
+                    <path d="M7 2v18M2 15l5 5 5-5" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-source">
+          <span>DATA NOTE</span>
+          <p>
+            点阵来自项目样例 MRI；指标为 2026.10.25 单例原型输出记录，仅用于展示现有管线与评价流程。
+            页面未展示患者身份信息，也不把单例结果解释为模型总体性能。
+          </p>
+          <span>PSNR VALUES AS RECORDED</span>
+        </div>
+      </section>
+
+      <section class="section build-spec" id="build-spec">
+        <div class="build-marquee" aria-hidden="true">
+          <div>
+            MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i> PROGNOSIS
+            <i>×</i> MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i>
+            PROGNOSIS <i>×</i>
+          </div>
+          <div>
+            MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i> PROGNOSIS
+            <i>×</i> MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i>
+            PROGNOSIS <i>×</i>
+          </div>
+        </div>
+
+        <div class="build-spec-heading reveal">
+          <div>
+            <div class="section-index">03 / BUILD SPEC LAB</div>
+            <span class="code-kicker">// TURN THE RESEARCH QUESTION INTO A RUNNABLE CONFIG</span>
+          </div>
+          <h2>把研究问题，写成<br />模型能执行的<em>构型。</em></h2>
+          <p>
+            像搭建一个 AI 产品一样搭建实验：选择输入、条件与评价目标，实时编译成一份可讨论、
+            可实现、可复现的实验规格。
+          </p>
+        </div>
+
+        <div class="build-studio reveal">
+          <div class="build-controls">
+            <div class="build-panel-head">
+              <span><i class="panel-status-dot"></i>CONFIGURATOR</span>
+              <span>PRISM / v0.9</span>
+            </div>
+
+            <div class="control-block">
+              <div class="control-heading">
+                <span>01</span>
+                <div>
+                  <strong>输入模态</strong>
+                  <small>SELECT MODALITIES</small>
+                </div>
+              </div>
+              <div class="modality-options" aria-label="选择 MRI 模态">
+                <button class="modality-toggle is-on" type="button" data-modality="T1" aria-pressed="true">
+                  T1
+                </button>
+                <button class="modality-toggle is-on" type="button" data-modality="T1CE" aria-pressed="true">
+                  T1CE
+                </button>
+                <button class="modality-toggle is-on" type="button" data-modality="T2" aria-pressed="true">
+                  T2
+                </button>
+                <button class="modality-toggle is-on" type="button" data-modality="FLAIR" aria-pressed="true">
+                  FLAIR
+                </button>
+              </div>
+            </div>
+
+            <div class="control-block">
+              <div class="control-heading">
+                <span>02</span>
+                <div>
+                  <strong>条件栈</strong>
+                  <small>COMPOSE CONDITION</small>
+                </div>
+              </div>
+              <div class="condition-options">
+                <button
+                  class="condition-toggle is-on"
+                  type="button"
+                  data-condition="temporal"
+                  aria-pressed="true"
+                >
+                  <span><i></i>随访时间间隔</span>
+                  <small>Δt</small>
+                </button>
+                <button
+                  class="condition-toggle is-on"
+                  type="button"
+                  data-condition="treatment"
+                  aria-pressed="true"
+                >
+                  <span><i></i>治疗变量</span>
+                  <small>TABULAR</small>
+                </button>
+                <button
+                  class="condition-toggle"
+                  type="button"
+                  data-condition="language"
+                  aria-pressed="false"
+                >
+                  <span><i></i>语言模型编码</span>
+                  <small>TEST</small>
+                </button>
+                <button
+                  class="condition-toggle is-on"
+                  type="button"
+                  data-condition="missing"
+                  aria-pressed="true"
+                >
+                  <span><i></i>缺失模态鲁棒性</span>
+                  <small>ROBUST</small>
+                </button>
+              </div>
+            </div>
+
+            <div class="build-control-footer">
+              <span><i></i> LIVE COMPILER</span>
+              <span id="config-count">4 MODALITIES · 3 CONDITIONS</span>
+            </div>
+          </div>
+
+          <div class="build-output">
+            <div class="code-window-head">
+              <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span>research.config.json</span>
+              <span class="code-language">JSON</span>
+            </div>
+            <div class="code-body">
+              <div class="line-numbers" aria-hidden="true">
+                <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span>
+                <span>06</span><span>07</span><span>08</span><span>09</span><span>10</span>
+                <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+                <span>16</span><span>17</span><span>18</span>
+              </div>
+              <pre id="config-code" aria-live="polite"></pre>
+            </div>
+            <div class="code-runbar">
+              <div>
+                <span class="run-indicator">●</span>
+                <span id="config-status">CONFIG VALID</span>
+              </div>
+              <button class="copy-spec" type="button" id="copy-spec">
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <rect x="5" y="5" width="8" height="8" rx="1" />
+                  <path d="M3 10V3h7" />
+                </svg>
+                <span>COPY BUILD SPEC</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-footnote reveal">
+          <span>TRY IT / 试着关闭一个模态，或打开 LLM 条件</span>
+          <span>Every choice maps to an ablation, not a buzzword.</span>
+        </div>
+      </section>
+
+      <section class="section framework" aria-labelledby="framework-title">
+        <div class="section-heading compact reveal">
+          <div class="section-index">04 / SYSTEM FRAMEWORK</div>
+          <h2 id="framework-title">一条从影像到<em>预后信号</em>的闭环。</h2>
+        </div>
+
+        <div class="framework-grid">
+          <article class="framework-card reveal">
+            <div class="card-number">01</div>
+            <div class="framework-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path d="M7 13h9l4 6h21v20H7V13Z" />
+                <path d="M13 28h22M24 20v16M17 22l14 12M31 22 17 34" />
+              </svg>
+            </div>
+            <span class="card-kicker">LONGITUDINAL INPUT</span>
+            <h3>纵向数据条件</h3>
+            <p>历史四模态 MRI、肿瘤亚区、治疗信息、随访时间与生存标签进入统一数据表。</p>
+            <div class="card-tags">
+              <span>T1 / T1CE</span><span>T2 / FLAIR</span><span>Δt</span>
+            </div>
+          </article>
+
+          <div class="framework-arrow" aria-hidden="true">
+            <span></span>
+            <svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" /></svg>
+          </div>
+
+          <article class="framework-card featured reveal reveal-delay-1">
+            <div class="card-number">02</div>
+            <div class="framework-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <circle cx="24" cy="24" r="5" />
+                <circle cx="10" cy="14" r="3" />
+                <circle cx="38" cy="13" r="3" />
+                <circle cx="12" cy="36" r="3" />
+                <circle cx="38" cy="35" r="3" />
+                <path d="m14 16 7 5M34 15l-7 6M15 34l6-6M33 33l-6-5M7 17l-2 12M41 16l2 13" />
+              </svg>
+            </div>
+            <span class="card-kicker">CONDITIONAL GENERATION</span>
+            <h3>候选模型比较</h3>
+            <p>以 Med-DDPM 为静态基线，联合条件扩散与潜空间方案，比较未来影像和掩码生成能力。</p>
+            <div class="card-tags">
+              <span>MED-DDPM</span><span>COND. DIFFUSION</span><span>LLM ENCODER</span>
+            </div>
+          </article>
+
+          <div class="framework-arrow" aria-hidden="true">
+            <span></span>
+            <svg viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" /></svg>
+          </div>
+
+          <article class="framework-card reveal reveal-delay-2">
+            <div class="card-number">03</div>
+            <div class="framework-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path d="M7 34 17 23l8 6L40 12" />
+                <path d="M32 12h8v8" />
+                <path d="M7 40h34" />
+              </svg>
+            </div>
+            <span class="card-kicker">PROGNOSIS SIGNAL</span>
+            <h3>轨迹特征与验证</h3>
+            <p>提取体积变化率、水肿梯度与增强模式轨迹，接入 Cox 或离散时间生存模型。</p>
+            <div class="card-tags">
+              <span>DYNAMIC FEATURES</span><span>SURVIVAL</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section language-lab" id="language">
+        <div class="language-glow" aria-hidden="true"></div>
+        <div class="language-intro reveal">
+          <div class="section-index">05 / LANGUAGE CONDITION LAB</div>
+          <span class="outline-label">LLM AS A TESTED VARIABLE</span>
+          <h2>语言模型不是装饰，<br />而是<em>待验证</em>的条件编码器。</h2>
+          <p>
+            当前纵向数据预计缺少自由临床文本。因此我们不让语言模型“编造病情”，而是把已有的结构化治疗与随访变量
+            模板化，比较语言模型编码与普通表格编码是否产生可测量的增益。
+          </p>
+        </div>
+
+        <div class="experiment-lab reveal">
+          <div class="experiment-tabs" role="tablist" aria-label="条件编码消融实验">
+            <button
+              class="experiment-tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="experiment-detail"
+              data-experiment="a"
+            >
+              <span>A</span>
+              <strong>影像基线</strong>
+              <small>IMAGE + MASK</small>
+            </button>
+            <button
+              class="experiment-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="experiment-detail"
+              data-experiment="b"
+            >
+              <span>B</span>
+              <strong>结构化条件</strong>
+              <small>TABULAR + Δt</small>
+            </button>
+            <button
+              class="experiment-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="experiment-detail"
+              data-experiment="c"
+            >
+              <span>C</span>
+              <strong>语言化编码</strong>
+              <small>LLM CONDITION</small>
+            </button>
+            <button
+              class="experiment-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="experiment-detail"
+              data-experiment="d"
+            >
+              <span>D</span>
+              <strong>缺失鲁棒性</strong>
+              <small>MISSING MODALITY</small>
+            </button>
+          </div>
+
+          <div class="experiment-stage" id="experiment-detail" role="tabpanel" aria-live="polite">
+            <div class="experiment-flow">
+              <div class="flow-input">
+                <span class="flow-label">INPUT</span>
+                <div class="input-stack">
+                  <div class="input-token">
+                    <i class="token-icon token-image"></i>
+                    <span>历史多模态 MRI</span>
+                  </div>
+                  <div class="input-token">
+                    <i class="token-icon token-mask"></i>
+                    <span>肿瘤亚区掩码</span>
+                  </div>
+                  <div class="input-token conditional-token">
+                    <i class="token-icon token-time"></i>
+                    <span id="condition-input">时间间隔 Δt</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flow-line" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="model-core">
+                <div class="core-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+                <small>CONDITION</small>
+                <strong id="core-title">DIFFUSION</strong>
+                <span id="core-caption">影像条件生成</span>
+              </div>
+              <div class="flow-line output-line" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="flow-output">
+                <span class="flow-label">OUTPUT</span>
+                <div class="output-tile">
+                  <div class="output-bars">
+                    <i></i><i></i><i></i><i></i><i></i><i></i>
+                  </div>
+                  <strong id="output-title">未来影像</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="experiment-copy">
+              <span class="experiment-status" id="experiment-status">BASELINE / A</span>
+              <h3 id="experiment-title">建立纵向生成的最低基线</h3>
+              <p id="experiment-description">
+                只使用历史影像与肿瘤掩码，验证模型能否学习时间点之间的基本变化。该组不引入任何临床语义，
+                用于判断其他条件是否真正带来增益。
+              </p>
+              <div class="experiment-metrics">
+                <span>研究作用</span>
+                <strong id="experiment-purpose">控制变量基线</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="lab-note">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="8" />
+              <path d="M10 9v5M10 6.3v.4" />
+            </svg>
+            <p>
+              如果 LLM 组没有超过结构化编码组，我们会把它报告为有效结论：并非所有医学生成任务都需要语言模型。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section route" id="route">
+        <div class="section-heading compact reveal">
+          <div class="section-index">06 / RESEARCH ROUTE</div>
+          <h2>先验证<em>闭环</em>，再扩大模型池。</h2>
+          <p>点击阶段，查看每一步真正需要产出的数据、模型与验证结果。</p>
+        </div>
+
+        <div class="route-shell reveal">
+          <div class="route-main">
+            <div class="route-progress" aria-hidden="true">
+              <span id="route-progress-fill"></span>
+            </div>
+            <div class="route-step-list" role="tablist" aria-label="技术路线阶段">
+              <button class="route-step is-active" type="button" role="tab" aria-selected="true" data-step="0">
+                <span>01</span>
+                <strong>数据治理</strong>
+                <small>DATA</small>
+              </button>
+              <button class="route-step" type="button" role="tab" aria-selected="false" data-step="1">
+                <span>02</span>
+                <strong>静态基线</strong>
+                <small>BASELINE</small>
+              </button>
+              <button class="route-step" type="button" role="tab" aria-selected="false" data-step="2">
+                <span>03</span>
+                <strong>纵向生成</strong>
+                <small>GENERATION</small>
+              </button>
+              <button class="route-step" type="button" role="tab" aria-selected="false" data-step="3">
+                <span>04</span>
+                <strong>预后耦合</strong>
+                <small>PROGNOSIS</small>
+              </button>
+              <button class="route-step" type="button" role="tab" aria-selected="false" data-step="4">
+                <span>05</span>
+                <strong>系统验证</strong>
+                <small>VALIDATION</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="route-detail" role="tabpanel" aria-live="polite">
+            <div class="route-detail-head">
+              <span id="route-kicker">STAGE 01 / DATA FOUNDATION</span>
+              <span class="route-badge" id="route-badge">FOUNDATION</span>
+            </div>
+            <h3 id="route-title">把随访数据变成可复核的实验资产</h3>
+            <p id="route-description">
+              完成多模态配准、重采样、强度标准化、肿瘤亚区处理和患者级划分；建立纵向影像、治疗信息、随访间隔与删失标签的统一数据表。
+            </p>
+            <div class="route-output">
+              <span>阶段产出</span>
+              <strong id="route-output">统一数据表 + 数据字典</strong>
+            </div>
+            <div class="route-meter">
+              <span>证据优先级</span>
+              <div><i id="route-meter-fill"></i></div>
+              <strong id="route-meter-label">HIGH</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="route-principle reveal">
+          <span>STOP / GO PRINCIPLE</span>
+          <p>
+            每一阶段都有可量化检查点。若纵向生成未超过时间复制/插值基线，或动态特征没有稳定预后增益，
+            项目将收束结论，而不是用视觉样例替代实验证据。
+          </p>
+        </div>
+      </section>
+
+      <section class="section prototype" id="prototype">
+        <div class="prototype-heading reveal">
+          <div>
+            <div class="section-index">07 / CURRENT PROTOTYPE</div>
+            <h2>先让管线跑通，<br />再让结果<em>更好看</em>。</h2>
+          </div>
+          <div class="status-card">
+            <span class="status-pulse"></span>
+            <div>
+              <strong>2026.10 / PHASE 01</strong>
+              <small>静态多模态生成原型已跑通</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="prototype-grid">
+          <div class="prototype-copy reveal">
+            <p>
+              当前原型基于 Med-DDPM 的条件生成路线，已经完成四模态样例推理、NIfTI
+              输出、切片可视化、肿瘤轮廓叠加与基础指标计算。
+            </p>
+            <ul class="check-list">
+              <li><span>01</span>四模态条件生成与图像导出</li>
+              <li><span>02</span>肿瘤轮廓叠加与切片检视</li>
+              <li><span>03</span>PSNR、SSIM、NCC 等基础指标</li>
+              <li><span>04</span>预训练权重与自定义数据推理流程</li>
+            </ul>
+            <div class="prototype-caveat">
+              <strong>研究边界</strong>
+              <p>当前输出只用于验证数据、推理和展示链路，不代表最终模型性能，也不构成临床结论。</p>
+            </div>
+          </div>
+
+          <figure class="prototype-figure reveal reveal-delay-1">
+            <button
+              class="prototype-media"
+              type="button"
+              data-modal-open
+              aria-label="放大查看当前原型调试图"
+            >
+              <img
+                src="./assets/current-prototype.png"
+                alt="当前原型四模态条件生成结果与肿瘤轮廓叠加调试图"
+              />
+              <span class="prototype-overlay">
+                <span>CURRENT / CANDIDATE OUTPUT</span>
+                <span class="zoom-icon">
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <circle cx="8.5" cy="8.5" r="5.5" />
+                    <path d="m13 13 4 4M8.5 6v5M6 8.5h5" />
+                  </svg>
+                </span>
+              </span>
+            </button>
+            <figcaption>
+              <span>图 01 · 当前原型调试输出</span>
+              <span>数据源：BraTS 样例 / 科研用途</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="prototype-sequence reveal">
+          <div class="sequence-heading">
+            <span>DATA PIPELINE</span>
+            <span>FROM VOLUME TO VISIBLE EVIDENCE</span>
+          </div>
+          <div class="sequence-flow">
+            <div class="sequence-step">
+              <span>01</span>
+              <strong>3D MRI</strong>
+              <small>配准 · 标准化 · 裁剪</small>
+            </div>
+            <i></i>
+            <div class="sequence-step">
+              <span>02</span>
+              <strong>CONDITION</strong>
+              <small>肿瘤掩码 · 时间 · 治疗</small>
+            </div>
+            <i></i>
+            <div class="sequence-step">
+              <span>03</span>
+              <strong>DIFFUSION</strong>
+              <small>条件采样 · 候选生成</small>
+            </div>
+            <i></i>
+            <div class="sequence-step">
+              <span>04</span>
+              <strong>EVIDENCE</strong>
+              <small>切片 · 轮廓 · 指标 · 不确定性</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section evaluation" id="evaluation">
+        <div class="evaluation-top">
+          <div class="section-heading compact reveal">
+            <div class="section-index">08 / EVALUATION SYSTEM</div>
+            <h2>视觉清晰度，<br />不能替代<em>临床价值</em>。</h2>
+          </div>
+          <p class="evaluation-lede reveal">
+            生成质量与预后效用分开评价。每个结果都固定患者级数据划分、随机种子与模型配置，并保留可复核日志。
+          </p>
+        </div>
+
+        <div class="metric-board reveal">
+          <div class="metric-board-head">
+            <span>EVALUATION / DUAL TRACK</span>
+            <span>PRE-SPECIFIED, NOT POST-HOC</span>
+          </div>
+          <div class="metric-groups">
+            <article class="metric-group">
+              <div class="metric-group-title">
+                <span>01</span>
+                <div>
+                  <small>IMAGE FIDELITY</small>
+                  <h3>影像与形态</h3>
+                </div>
+              </div>
+              <div class="metric-list">
+                <div><span>FID</span><strong>分布距离</strong></div>
+                <div><span>SSIM</span><strong>结构相似度</strong></div>
+                <div><span>Dice</span><strong>肿瘤区域一致性</strong></div>
+                <div><span>VOL</span><strong>肿瘤体积误差</strong></div>
+              </div>
+            </article>
+            <article class="metric-group metric-survival">
+              <div class="metric-group-title">
+                <span>02</span>
+                <div>
+                  <small>PROGNOSTIC UTILITY</small>
+                  <h3>风险与校准</h3>
+                </div>
+              </div>
+              <div class="metric-list">
+                <div><span>C-index</span><strong>风险排序能力</strong></div>
+                <div><span>td-AUC</span><strong>时间依赖判别</strong></div>
+                <div><span>Brier</span><strong>概率预测误差</strong></div>
+                <div><span>CAL</span><strong>校准曲线</strong></div>
+              </div>
+            </article>
+          </div>
+          <div class="ablation-line">
+            <span>必做对照</span>
+            <div><i></i>单时间点静态模型</div>
+            <div><i></i>无生成辅助模型</div>
+            <div><i></i>不同条件组合</div>
+            <div><i></i>固定数据划分与种子</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section timeline" id="timeline">
+        <div class="timeline-heading reveal">
+          <div class="section-index">09 / PROJECT MILESTONES</div>
+          <h2>八个月，<br />一次<em>可验证</em>的推进。</h2>
+          <p>从数据治理到系统验证，每个阶段都对应明确产出，而不是只保留“继续优化”的模糊目标。</p>
+        </div>
+
+        <div class="timeline-list">
+          <article class="timeline-item reveal">
+            <div class="timeline-date">2026.10—12</div>
+            <div class="timeline-dot"><span></span></div>
+            <div class="timeline-content">
+              <span>FOUNDATION</span>
+              <h3>数据与研究基线</h3>
+              <p>完成数据核验、患者级划分、文献梳理、统一目录与实验记录规范。</p>
+            </div>
+            <span class="timeline-state current">当前阶段</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-date">2027.01—02</div>
+            <div class="timeline-dot"><span></span></div>
+            <div class="timeline-content">
+              <span>BUILD</span>
+              <h3>模型接口与复现</h3>
+              <p>建立静态基线、候选生成模型和纵向条件模型的统一输入输出接口。</p>
+            </div>
+            <span class="timeline-state">计划</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-date">2027.03—04</div>
+            <div class="timeline-dot"><span></span></div>
+            <div class="timeline-content">
+              <span>EXPERIMENT</span>
+              <h3>纵向生成与消融</h3>
+              <p>完成未来影像与掩码生成、语言条件对比、缺失模态实验和不确定性分析。</p>
+            </div>
+            <span class="timeline-state">计划</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-date">2027.05</div>
+            <div class="timeline-dot"><span></span></div>
+            <div class="timeline-content">
+              <span>PREDICT</span>
+              <h3>动态特征与预后耦合</h3>
+              <p>接入生存分析模型，完成轨迹特征、风险分层和原型系统联合调试。</p>
+            </div>
+            <span class="timeline-state">计划</span>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-date">2027.06</div>
+            <div class="timeline-dot"><span></span></div>
+            <div class="timeline-content">
+              <span>VALIDATE</span>
+              <h3>留出集验证与交付</h3>
+              <p>完成患者级留出集评价、预后增益复核、项目报告、演示材料和软件版权材料。</p>
+            </div>
+            <span class="timeline-state">计划</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="closing">
+        <div class="closing-orbit orbit-closing-a" aria-hidden="true"></div>
+        <div class="closing-orbit orbit-closing-b" aria-hidden="true"></div>
+        <div class="closing-content reveal">
+          <span class="closing-kicker">PRISM / PROJECT 2026</span>
+          <h2>让每一次影像，<br />都成为理解<em>下一步</em>的证据。</h2>
+          <div class="closing-meta">
+            <div>
+              <span>项目负责人</span>
+              <strong>胡鑫</strong>
+            </div>
+            <div>
+              <span>项目单位</span>
+              <strong>东南大学校院级 SRTP</strong>
+            </div>
+            <div>
+              <span>研究周期</span>
+              <strong>2026.10 — 2027.06</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#top" aria-label="返回首页">
+        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
+          <path d="M22 3 39 12.5v19L22 41 5 31.5v-19L22 3Z" />
+          <path d="M22 11v22M11 17l22 10M33 17 11 27" />
+          <circle cx="22" cy="22" r="3.2" />
+        </svg>
+        <span class="brand-type">
+          <strong>PRISM</strong>
+          <small>SPATIAL · TEMPORAL · SIGNAL</small>
+        </span>
+      </a>
+      <p>仅供科研展示。页面中的生成样例不构成医学诊断或治疗建议。</p>
+      <a class="back-top" href="#top">BACK TO TOP ↑</a>
+    </footer>
+
+    <dialog class="command-palette" id="command-palette" aria-labelledby="command-title">
+      <div class="command-palette-head">
+        <div>
+          <span>PRISM / COMMAND CENTER</span>
+          <h2 id="command-title">快速到达下一步</h2>
+        </div>
+        <button class="command-close" type="button" data-command-close aria-label="关闭命令面板">
+          <kbd>ESC</kbd>
+        </button>
+      </div>
+      <label class="command-search">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <circle cx="8.5" cy="8.5" r="5.5" />
+          <path d="m13 13 4 4" />
+        </svg>
+        <input
+          id="command-input"
+          type="search"
+          placeholder="输入命令，或选择下一步…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <kbd>⌘ K</kbd>
+      </label>
+      <div class="command-list" id="command-list">
+        <button type="button" data-command-target="#build-spec">
+          <span class="command-index">01</span>
+          <span><strong>配置实验构型</strong><small>选择模态、条件与目标</small></span>
+          <kbd>G B</kbd>
+        </button>
+        <button type="button" data-command-target="#language">
+          <span class="command-index">02</span>
+          <span><strong>比较语言条件编码</strong><small>查看 LLM 消融设计</small></span>
+          <kbd>G L</kbd>
+        </button>
+        <button type="button" data-command-target="#route">
+          <span class="command-index">03</span>
+          <span><strong>查看技术路线</strong><small>从数据治理到系统验证</small></span>
+          <kbd>G R</kbd>
+        </button>
+        <button type="button" data-command-target="#prototype">
+          <span class="command-index">04</span>
+          <span><strong>打开当前原型</strong><small>查看真实调试输出</small></span>
+          <kbd>G P</kbd>
+        </button>
+        <button type="button" data-command-copy>
+          <span class="command-index">05</span>
+          <span><strong>复制项目摘要</strong><small>用于汇报或协作沟通</small></span>
+          <kbd>CTRL C</kbd>
+        </button>
+      </div>
+      <div class="command-empty" id="command-empty" hidden>没有匹配的命令</div>
+      <div class="command-footer">
+        <span><i></i> READY TO BUILD</span>
+        <span>↑ ↓ 浏览 · ENTER 选择 · ESC 关闭</span>
+      </div>
+    </dialog>
+
+    <dialog class="prototype-modal" id="prototype-modal" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" data-modal-close aria-label="关闭大图">
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="m4 4 12 12M16 4 4 16" />
+        </svg>
+      </button>
+      <div class="modal-head">
+        <span>CURRENT PROTOTYPE / 2026.10</span>
+        <h2 id="modal-title">四模态生成与肿瘤轮廓叠加</h2>
+      </div>
+      <img
+        src="./assets/current-prototype.png"
+        alt="当前原型四模态条件生成结果与肿瘤轮廓叠加调试图"
+      />
+      <p>当前结果用于验证多模态输入、推理、轮廓叠加和图像导出流程，不代表最终模型性能。</p>
+    </dialog>
+  </body>
+</html>
