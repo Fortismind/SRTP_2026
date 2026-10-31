@@ -1,0 +1,18 @@
+{
+  "seed": 20261025,
+  "size": 128,
+  "channels": 16,
+  "bridge_steps": 64,
+  "total_variance": 0.5,
+  "nfe": 16,
+  "batch_size": 8,
+  "steps": 600,
+  "validate_every": 100,
+  "val_patients": 4,
+  "val_slices": 8,
+  "lr": 0.0003,
+  "max_minutes": 20,
+  "sampling_seed": 7391,
+  "slice_rule": "all axial slices inside baseline foreground bounding box; uniform patient then slice training",
+  "example_rule": "first three numeric patient IDs in fixed test split, median baseline support slice"
+}

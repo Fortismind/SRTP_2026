@@ -1,0 +1,21 @@
+{
+  "commit": "1ffdfaaf05495ef883ece2c1fe991b3049f814cc",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/NVlabs/I2SB/master/LICENSE",
+      "sha256": "eee387d1962397fc11adf5b40b938c43ea35214ef4662ac8756c893b18c51b57"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NVlabs/I2SB/master/i2sb/diffusion.py",
+      "sha256": "8bf4b8b3e1ad45eeedf2078154e3567b5c05ee8498204ee1f644d4d0937ca92b"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NVlabs/I2SB/master/i2sb/runner.py",
+      "sha256": "ed015624d1449d47b720e2ccdf8aec382311087001d34dd525f6538f8170cda9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/NVlabs/I2SB/master/README.md",
+      "sha256": "28e10cfa7b0bc9af8519295eecc59204cdc21e8aae578b4be05717d21efb41dd"
+    }
+  ]
+}
