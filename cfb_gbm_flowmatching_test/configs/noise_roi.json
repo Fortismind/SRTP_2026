@@ -1,0 +1,15 @@
+{
+  "seed": 20261101,
+  "steps": 4000,
+  "max_seconds": 900,
+  "batch": 8,
+  "lr": 0.0002,
+  "channels": 16,
+  "lambda_roi": 0.1,
+  "endpoint_fraction": 0.125,
+  "validate_every": 1000,
+  "validation_slices": 8,
+  "ode_steps": 16,
+  "solver": "euler",
+  "selection": "all validation patients, baseline support uniform 8 slices, patient-equal brain MAE after final [0,1] clamp; fixed before test"
+}

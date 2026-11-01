@@ -1,0 +1,23 @@
+{
+  "reused_sources": [
+    {
+      "project": "cfb_gbm_i2sb_test",
+      "relative_path": "cfb/preprocess.py",
+      "sha256": "8c6510dd914c0d6fe2f79267273bcd035c4953b4e626d930728e23b153fe1334",
+      "reused_as": "fm/preprocess.py"
+    },
+    {
+      "project": "cfb_gbm_i2sb_test",
+      "relative_path": "cfb/metrics.py",
+      "sha256": "acb23b5a4a021b8c4596bc1765f75d945c429d5679c39a132757ee74e52e265f",
+      "reused_as": "fm/metrics.py"
+    }
+  ],
+  "license": "official/LICENSE",
+  "license_sha256": "eee387d1962397fc11adf5b40b938c43ea35214ef4662ac8756c893b18c51b57",
+  "method_references": [
+    "https://arxiv.org/abs/2210.02747",
+    "https://arxiv.org/abs/2603.07562"
+  ],
+  "scope": "non-commercial research/evaluation; no data or model parameters redistributed"
+}
