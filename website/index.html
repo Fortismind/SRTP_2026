@@ -8,13 +8,13 @@
       content="基于多模态的脑肿瘤纵向生成与预后预测。面向科研验证，探索从静态影像快照走向可解释的肿瘤演化轨迹。"
     />
     <meta name="theme-color" content="#080b0d" />
-    <meta property="og:title" content="PRISM · 脑肿瘤纵向生成与预后预测" />
+    <meta property="og:title" content="SRTP · 脑肿瘤纵向生成与预后预测" />
     <meta
       property="og:description"
-      content="从静态影像观察到纵向演化推演。多模态 MRI、条件生成、语言条件编码与生存预后。"
+      content="从静态影像观察到纵向演化推演。MAISI-v2、纵向 ControlNet、Rectified Flow 与删失感知预后。"
     />
     <meta property="og:type" content="website" />
-    <title>PRISM · 脑肿瘤纵向生成与预后预测</title>
+    <title>SRTP · 脑肿瘤纵向生成与预后预测</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="preload" as="image" href="./assets/gtv-overlay.png" />
     <link rel="stylesheet" href="./styles.css" />
@@ -28,15 +28,15 @@
     <div class="page-noise" aria-hidden="true"></div>
 
     <header class="site-header" id="site-header">
-      <a class="brand" href="#top" aria-label="PRISM 项目首页">
+      <a class="brand" href="#top" aria-label="SRTP 项目首页">
         <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
           <path d="M22 3 39 12.5v19L22 41 5 31.5v-19L22 3Z" />
           <path d="M22 11v22M11 17l22 10M33 17 11 27" />
           <circle cx="22" cy="22" r="3.2" />
         </svg>
         <span class="brand-type">
-          <strong>PRISM</strong>
-          <small>SRTP / 2026—27</small>
+          <strong>SRTP</strong>
+          <small>MULTIMODAL / PROGNOSIS</small>
         </span>
       </a>
 
@@ -44,7 +44,7 @@
         <a href="#research">研究问题</a>
         <a href="#data-story">数据故事</a>
         <a href="#build-spec">实验构型</a>
-        <a href="#language">语言实验</a>
+        <a href="#condition-lab">条件实验</a>
         <a href="#route">技术路线</a>
         <a href="#prototype">当前原型</a>
         <a href="#evaluation">评价体系</a>
@@ -96,8 +96,8 @@
             <span>可以被预见。</span>
           </h1>
           <p class="hero-lede">
-            从静态影像快照，到治疗感知的纵向演化轨迹。我们探索多模态 MRI
-            生成与生存预后之间，一条可验证、可复核的连接路径。
+            以 MAISI-v2 开放代码为生成底座，叠加自行实现的纵向 ControlNet，
+            在治疗、随访时间和多模态条件下探索可验证、可复核的预后推断路径。
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#research">
@@ -169,8 +169,8 @@
           </div>
           <div class="floating-note floating-note-b">
             <span class="float-kicker">CONDITION</span>
-            <strong>IMAGE + Δt</strong>
-            <small>结构化临床变量编码</small>
+            <strong>CONTROLNET + Δt</strong>
+            <small>治疗 / 随访 / 肿瘤掩码</small>
           </div>
           <div class="visual-orbit orbit-a" aria-hidden="true"></div>
           <div class="visual-orbit orbit-b" aria-hidden="true"></div>
@@ -194,22 +194,22 @@
         <div class="signal-item reveal">
           <span class="signal-number">Δt</span>
           <div>
-            <strong>纵向条件</strong>
-            <small>随访间隔与治疗信息</small>
+            <strong>纵向 ControlNet</strong>
+            <small>Rectified Flow · 时间 / 治疗</small>
           </div>
         </div>
         <div class="signal-item reveal">
           <span class="signal-number">01</span>
           <div>
-            <strong>患者级验证</strong>
-            <small>避免数据泄漏与重复样本</small>
+            <strong>删失感知</strong>
+            <small>观测时间 T · 事件指示 δ</small>
           </div>
         </div>
         <div class="signal-item reveal">
           <span class="signal-number">2×</span>
           <div>
-            <strong>双轨评价</strong>
-            <small>影像质量 × 预后效用</small>
+            <strong>双路径预后</strong>
+            <small>Cox + DeepHit · SDPM</small>
           </div>
         </div>
       </section>
@@ -252,7 +252,7 @@
 
           <article class="paradigm-card paradigm-new">
             <div class="paradigm-top">
-              <span>PRISM PROPOSAL</span>
+              <span>STAGED PIPELINE</span>
               <span>02</span>
             </div>
             <div class="trajectory-visual" aria-label="从历史时间点到未来时间点的纵向影像序列">
@@ -404,14 +404,16 @@
       <section class="section build-spec" id="build-spec">
         <div class="build-marquee" aria-hidden="true">
           <div>
-            MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i> PROGNOSIS
-            <i>×</i> MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i>
-            PROGNOSIS <i>×</i>
+            MAISI-v2 <i>×</i> LONGITUDINAL CONTROLNET <i>×</i> RECTIFIED FLOW
+            <i>×</i> CENSORING-AWARE PROGNOSIS <i>×</i> MAISI-v2 <i>×</i>
+            LONGITUDINAL CONTROLNET <i>×</i> RECTIFIED FLOW <i>×</i>
+            CENSORING-AWARE PROGNOSIS <i>×</i>
           </div>
           <div>
-            MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i> PROGNOSIS
-            <i>×</i> MULTIMODAL <i>×</i> TEMPORAL <i>×</i> LANGUAGE-GUIDED <i>×</i>
-            PROGNOSIS <i>×</i>
+            MAISI-v2 <i>×</i> LONGITUDINAL CONTROLNET <i>×</i> RECTIFIED FLOW
+            <i>×</i> CENSORING-AWARE PROGNOSIS <i>×</i> MAISI-v2 <i>×</i>
+            LONGITUDINAL CONTROLNET <i>×</i> RECTIFIED FLOW <i>×</i>
+            CENSORING-AWARE PROGNOSIS <i>×</i>
           </div>
         </div>
 
@@ -431,7 +433,7 @@
           <div class="build-controls">
             <div class="build-panel-head">
               <span><i class="panel-status-dot"></i>CONFIGURATOR</span>
-              <span>PRISM / v0.9</span>
+              <span>MAISI-v2 / v1.0</span>
             </div>
 
             <div class="control-block">
@@ -488,11 +490,11 @@
                 <button
                   class="condition-toggle"
                   type="button"
-                  data-condition="language"
+                  data-condition="controlnet"
                   aria-pressed="false"
                 >
-                  <span><i></i>语言模型编码</span>
-                  <small>TEST</small>
+                  <span><i></i>纵向 ControlNet</span>
+                  <small>MAINLINE</small>
                 </button>
                 <button
                   class="condition-toggle is-on"
@@ -544,7 +546,7 @@
         </div>
 
         <div class="build-footnote reveal">
-          <span>TRY IT / 试着关闭一个模态，或打开 LLM 条件</span>
+          <span>TRY IT / 试着关闭一个模态，或打开纵向 ControlNet</span>
           <span>Every choice maps to an ablation, not a buzzword.</span>
         </div>
       </section>
@@ -566,9 +568,9 @@
             </div>
             <span class="card-kicker">LONGITUDINAL INPUT</span>
             <h3>纵向数据条件</h3>
-            <p>历史四模态 MRI、肿瘤亚区、治疗信息、随访时间与生存标签进入统一数据表。</p>
+            <p>历史四模态 MRI、肿瘤亚区、治疗信息、随访时间、观测时间与事件状态进入统一数据表。</p>
             <div class="card-tags">
-              <span>T1 / T1CE</span><span>T2 / FLAIR</span><span>Δt</span>
+              <span>T1 / T1CE / T2 / FLAIR</span><span>Δt</span><span>T / δ</span>
             </div>
           </article>
 
@@ -589,11 +591,11 @@
                 <path d="m14 16 7 5M34 15l-7 6M15 34l6-6M33 33l-6-5M7 17l-2 12M41 16l2 13" />
               </svg>
             </div>
-            <span class="card-kicker">CONDITIONAL GENERATION</span>
-            <h3>候选模型比较</h3>
-            <p>以 Med-DDPM 为静态基线，联合条件扩散与潜空间方案，比较未来影像和掩码生成能力。</p>
+            <span class="card-kicker">STAGED GENERATION</span>
+            <h3>MAISI-v2 + 纵向 ControlNet</h3>
+            <p>以开放的 MAISI-v2 为底座，叠加自行实现的纵向 ControlNet、Rectified Flow 与治疗/时间条件，生成未来多模态影像。</p>
             <div class="card-tags">
-              <span>MED-DDPM</span><span>COND. DIFFUSION</span><span>LLM ENCODER</span>
+              <span>MAISI-V2</span><span>CONTROLNET</span><span>RECTIFIED FLOW</span>
             </div>
           </article>
 
@@ -612,29 +614,37 @@
               </svg>
             </div>
             <span class="card-kicker">PROGNOSIS SIGNAL</span>
-            <h3>轨迹特征与验证</h3>
-            <p>提取体积变化率、水肿梯度与增强模式轨迹，接入 Cox 或离散时间生存模型。</p>
+            <h3>动态特征与删失感知预后</h3>
+            <p>提取轨迹动态特征，主路径采用 Cox + DeepHit，创新路径加入自行实现的 SDPM，并处理右删失。</p>
             <div class="card-tags">
-              <span>DYNAMIC FEATURES</span><span>SURVIVAL</span>
+              <span>COX + DEEPHIT</span><span>SDPM</span><span>T / δ</span>
             </div>
           </article>
         </div>
+
+        <div class="baseline-note reveal">
+          <span>BASELINE / NOT MAIN MODEL</span>
+          <p>
+            Med-DDPM 仅作为独立历史基线，用于复现、对照和展示已有原型链路；
+            当前研究主线已调整为 MAISI-v2 底座与团队自行实现的纵向 ControlNet。
+          </p>
+        </div>
       </section>
 
-      <section class="section language-lab" id="language">
+      <section class="section language-lab" id="condition-lab">
         <div class="language-glow" aria-hidden="true"></div>
         <div class="language-intro reveal">
-          <div class="section-index">05 / LANGUAGE CONDITION LAB</div>
-          <span class="outline-label">LLM AS A TESTED VARIABLE</span>
-          <h2>语言模型不是装饰，<br />而是<em>待验证</em>的条件编码器。</h2>
+          <div class="section-index">05 / STAGED GENERATION LAB</div>
+          <span class="outline-label">CONTROLNET × RECTIFIED FLOW × CENSORING</span>
+          <h2>生成只是中间站，<br /><em>删失感知</em>才是评价入口。</h2>
           <p>
-            当前纵向数据预计缺少自由临床文本。因此我们不让语言模型“编造病情”，而是把已有的结构化治疗与随访变量
-            模板化，比较语言模型编码与普通表格编码是否产生可测量的增益。
+            借鉴 3D-GlioPREDICT 的纵向建模思路，将治疗信息、随访时间与历史多模态影像共同注入
+            ControlNet 和 Rectified Flow；预后侧同时考虑观测时间 T、事件指示 δ 与右删失机制。
           </p>
         </div>
 
         <div class="experiment-lab reveal">
-          <div class="experiment-tabs" role="tablist" aria-label="条件编码消融实验">
+          <div class="experiment-tabs" role="tablist" aria-label="分阶段生成与预后消融实验">
             <button
               class="experiment-tab is-active"
               type="button"
@@ -644,8 +654,8 @@
               data-experiment="a"
             >
               <span>A</span>
-              <strong>影像基线</strong>
-              <small>IMAGE + MASK</small>
+              <strong>历史基线</strong>
+              <small>MED-DDPM</small>
             </button>
             <button
               class="experiment-tab"
@@ -656,8 +666,8 @@
               data-experiment="b"
             >
               <span>B</span>
-              <strong>结构化条件</strong>
-              <small>TABULAR + Δt</small>
+              <strong>开放代码底座</strong>
+              <small>MAISI-V2</small>
             </button>
             <button
               class="experiment-tab"
@@ -668,8 +678,8 @@
               data-experiment="c"
             >
               <span>C</span>
-              <strong>语言化编码</strong>
-              <small>LLM CONDITION</small>
+              <strong>纵向生成主线</strong>
+              <small>CONTROLNET + FLOW</small>
             </button>
             <button
               class="experiment-tab"
@@ -680,8 +690,8 @@
               data-experiment="d"
             >
               <span>D</span>
-              <strong>缺失鲁棒性</strong>
-              <small>MISSING MODALITY</small>
+              <strong>删失感知预后</strong>
+              <small>COX + DEEPHIT</small>
             </button>
           </div>
 
@@ -710,8 +720,8 @@
               <div class="model-core">
                 <div class="core-rings" aria-hidden="true"><i></i><i></i><i></i></div>
                 <small>CONDITION</small>
-                <strong id="core-title">DIFFUSION</strong>
-                <span id="core-caption">影像条件生成</span>
+                <strong id="core-title">MED-DDPM</strong>
+                <span id="core-caption">独立历史基线</span>
               </div>
               <div class="flow-line output-line" aria-hidden="true">
                 <span></span><span></span><span></span>
@@ -722,21 +732,21 @@
                   <div class="output-bars">
                     <i></i><i></i><i></i><i></i><i></i><i></i>
                   </div>
-                  <strong id="output-title">未来影像</strong>
+                  <strong id="output-title">对照结果</strong>
                 </div>
               </div>
             </div>
 
             <div class="experiment-copy">
               <span class="experiment-status" id="experiment-status">BASELINE / A</span>
-              <h3 id="experiment-title">建立纵向生成的最低基线</h3>
+              <h3 id="experiment-title">保留可复现的历史生成基线</h3>
               <p id="experiment-description">
-                只使用历史影像与肿瘤掩码，验证模型能否学习时间点之间的基本变化。该组不引入任何临床语义，
-                用于判断其他条件是否真正带来增益。
+                Med-DDPM 作为独立历史基线，用于复现已有条件生成、图像导出与轮廓叠加流程，
+                不再承担当前研究主线，也不代表项目最终模型。
               </p>
               <div class="experiment-metrics">
                 <span>研究作用</span>
-                <strong id="experiment-purpose">控制变量基线</strong>
+                <strong id="experiment-purpose">历史对照基线</strong>
               </div>
             </div>
           </div>
@@ -747,7 +757,7 @@
               <path d="M10 9v5M10 6.3v.4" />
             </svg>
             <p>
-              如果 LLM 组没有超过结构化编码组，我们会把它报告为有效结论：并非所有医学生成任务都需要语言模型。
+              Med-DDPM 不会与主线成果混写；公开底座、自行实现模块、预训练权重和第三方许可证会分别说明。
             </p>
           </div>
         </div>
@@ -756,8 +766,8 @@
       <section class="section route" id="route">
         <div class="section-heading compact reveal">
           <div class="section-index">06 / RESEARCH ROUTE</div>
-          <h2>先验证<em>闭环</em>，再扩大模型池。</h2>
-          <p>点击阶段，查看每一步真正需要产出的数据、模型与验证结果。</p>
+          <h2>分阶段生成，<br />走向<em>删失感知预后</em>。</h2>
+          <p>点击阶段，查看数据、生成模型、动态特征与预后验证之间的衔接。</p>
         </div>
 
         <div class="route-shell reveal">
@@ -773,8 +783,8 @@
               </button>
               <button class="route-step" type="button" role="tab" aria-selected="false" data-step="1">
                 <span>02</span>
-                <strong>静态基线</strong>
-                <small>BASELINE</small>
+                <strong>生成底座</strong>
+                <small>MAISI-V2</small>
               </button>
               <button class="route-step" type="button" role="tab" aria-selected="false" data-step="2">
                 <span>03</span>
@@ -783,8 +793,8 @@
               </button>
               <button class="route-step" type="button" role="tab" aria-selected="false" data-step="3">
                 <span>04</span>
-                <strong>预后耦合</strong>
-                <small>PROGNOSIS</small>
+                <strong>预后建模</strong>
+                <small>COX + DEEPHIT</small>
               </button>
               <button class="route-step" type="button" role="tab" aria-selected="false" data-step="4">
                 <span>05</span>
@@ -801,7 +811,7 @@
             </div>
             <h3 id="route-title">把随访数据变成可复核的实验资产</h3>
             <p id="route-description">
-              完成多模态配准、重采样、强度标准化、肿瘤亚区处理和患者级划分；建立纵向影像、治疗信息、随访间隔与删失标签的统一数据表。
+              完成多模态配准、重采样、强度标准化、肿瘤亚区处理和患者级划分；建立包含治疗、随访间隔、观测时间 T、事件指示 δ 与右删失状态的统一数据表。
             </p>
             <div class="route-output">
               <span>阶段产出</span>
@@ -842,14 +852,14 @@
         <div class="prototype-grid">
           <div class="prototype-copy reveal">
             <p>
-              当前原型基于 Med-DDPM 的条件生成路线，已经完成四模态样例推理、NIfTI
-              输出、切片可视化、肿瘤轮廓叠加与基础指标计算。
+              Med-DDPM 独立历史基线已经完成四模态样例推理、NIfTI 输出、切片可视化、
+              肿瘤轮廓叠加与基础指标计算。它用于对照和流程验证，不是当前主线模型。
             </p>
             <ul class="check-list">
-              <li><span>01</span>四模态条件生成与图像导出</li>
-              <li><span>02</span>肿瘤轮廓叠加与切片检视</li>
-              <li><span>03</span>PSNR、SSIM、NCC 等基础指标</li>
-              <li><span>04</span>预训练权重与自定义数据推理流程</li>
+              <li><span>01</span>独立历史基线：四模态生成与图像导出</li>
+              <li><span>02</span>肿瘤轮廓叠加、切片检视与基础指标</li>
+              <li><span>03</span>MAISI-v2 开放代码与权重接入准备</li>
+              <li><span>04</span>纵向 ControlNet 与 Rectified Flow 接口设计</li>
             </ul>
             <div class="prototype-caveat">
               <strong>研究边界</strong>
@@ -885,6 +895,18 @@
           </figure>
         </div>
 
+        <div class="license-boundary reveal">
+          <div>
+            <span>CODE / WEIGHTS / LICENSE</span>
+            <strong>来源与贡献边界</strong>
+          </div>
+          <p>
+            MAISI-v2 作为开放代码底座使用；纵向 ControlNet、Rectified Flow 条件接口、
+            SDPM 及预后耦合模块为项目自行实现部分。预训练权重和第三方依赖继续遵循各自许可证，
+            不把公开代码或他人权重表述为本项目全部原创开源成果。
+          </p>
+        </div>
+
         <div class="prototype-sequence reveal">
           <div class="sequence-heading">
             <span>DATA PIPELINE</span>
@@ -905,8 +927,8 @@
             <i></i>
             <div class="sequence-step">
               <span>03</span>
-              <strong>DIFFUSION</strong>
-              <small>条件采样 · 候选生成</small>
+              <strong>MAISI + CONTROLNET</strong>
+              <small>Rectified Flow · 纵向条件生成</small>
             </div>
             <i></i>
             <div class="sequence-step">
@@ -925,7 +947,8 @@
             <h2>视觉清晰度，<br />不能替代<em>临床价值</em>。</h2>
           </div>
           <p class="evaluation-lede reveal">
-            生成质量与预后效用分开评价。每个结果都固定患者级数据划分、随机种子与模型配置，并保留可复核日志。
+            生成质量与预后效用分开评价。生存分析显式使用观测时间 T、事件指示 δ 与右删失处理，
+            并固定患者级数据划分、随机种子与模型配置。
           </p>
         </div>
 
@@ -961,17 +984,17 @@
               <div class="metric-list">
                 <div><span>C-index</span><strong>风险排序能力</strong></div>
                 <div><span>td-AUC</span><strong>时间依赖判别</strong></div>
-                <div><span>Brier</span><strong>概率预测误差</strong></div>
-                <div><span>CAL</span><strong>校准曲线</strong></div>
+                <div><span>IBS</span><strong>积分 Brier 分数</strong></div>
+                <div><span>CAL</span><strong>生存概率校准</strong></div>
               </div>
             </article>
           </div>
           <div class="ablation-line">
             <span>必做对照</span>
-            <div><i></i>单时间点静态模型</div>
-            <div><i></i>无生成辅助模型</div>
-            <div><i></i>不同条件组合</div>
-            <div><i></i>固定数据划分与种子</div>
+            <div><i></i>Med-DDPM 历史基线</div>
+            <div><i></i>MAISI-v2 无 ControlNet</div>
+            <div><i></i>Cox / DeepHit / SDPM</div>
+            <div><i></i>右删失与患者级划分</div>
           </div>
         </div>
       </section>
@@ -989,8 +1012,8 @@
             <div class="timeline-dot"><span></span></div>
             <div class="timeline-content">
               <span>FOUNDATION</span>
-              <h3>数据与研究基线</h3>
-              <p>完成数据核验、患者级划分、文献梳理、统一目录与实验记录规范。</p>
+              <h3>数据治理与底座准备</h3>
+              <p>核验纵向数据、治疗字段、观测时间 T、事件指示 δ 与右删失状态；完成患者级划分和 MAISI-v2 代码/权重部署。</p>
             </div>
             <span class="timeline-state current">当前阶段</span>
           </article>
@@ -999,8 +1022,8 @@
             <div class="timeline-dot"><span></span></div>
             <div class="timeline-content">
               <span>BUILD</span>
-              <h3>模型接口与复现</h3>
-              <p>建立静态基线、候选生成模型和纵向条件模型的统一输入输出接口。</p>
+              <h3>纵向生成主干</h3>
+              <p>在 MAISI-v2 上实现纵向 ControlNet、Rectified Flow 与治疗/随访时间条件接口，同时保留 Med-DDPM 历史对照。</p>
             </div>
             <span class="timeline-state">计划</span>
           </article>
@@ -1009,8 +1032,8 @@
             <div class="timeline-dot"><span></span></div>
             <div class="timeline-content">
               <span>EXPERIMENT</span>
-              <h3>纵向生成与消融</h3>
-              <p>完成未来影像与掩码生成、语言条件对比、缺失模态实验和不确定性分析。</p>
+              <h3>多模态生成与动态特征</h3>
+              <p>生成未来多模态影像与掩码，借鉴 3D-GlioPREDICT 思路提取轨迹特征，完成缺失模态与条件消融。</p>
             </div>
             <span class="timeline-state">计划</span>
           </article>
@@ -1019,8 +1042,8 @@
             <div class="timeline-dot"><span></span></div>
             <div class="timeline-content">
               <span>PREDICT</span>
-              <h3>动态特征与预后耦合</h3>
-              <p>接入生存分析模型，完成轨迹特征、风险分层和原型系统联合调试。</p>
+              <h3>删失感知预后建模</h3>
+              <p>搭建 Cox + DeepHit 主路径与自研 SDPM 创新路径，完成 C-index、时间依赖 AUC、IBS 和校准分析。</p>
             </div>
             <span class="timeline-state">计划</span>
           </article>
@@ -1030,9 +1053,38 @@
             <div class="timeline-content">
               <span>VALIDATE</span>
               <h3>留出集验证与交付</h3>
-              <p>完成患者级留出集评价、预后增益复核、项目报告、演示材料和软件版权材料。</p>
+              <p>完成患者级留出集评价、代码权重许可核验、项目报告、演示材料和软件版权材料。</p>
             </div>
             <span class="timeline-state">计划</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section outcomes" id="outcomes">
+        <div class="section-heading compact reveal">
+          <div class="section-index">10 / EXPECTED OUTCOMES</div>
+          <h2>从生成结果，<br />交付可复核的<em>研究证据</em>。</h2>
+          <p>预期成果以分阶段生成、删失感知预后和可复现实验资产为主，不把视觉样例等同于临床结论。</p>
+        </div>
+
+        <div class="outcomes-grid">
+          <article class="outcome-card reveal">
+            <span>01 / GENERATION</span>
+            <h3>分阶段纵向生成框架</h3>
+            <p>形成 MAISI-v2 底座、纵向 ControlNet、Rectified Flow、治疗/随访时间条件与多模态输出的完整实验链路。</p>
+            <small>MAISI-V2 · CONTROLNET · RECTIFIED FLOW</small>
+          </article>
+          <article class="outcome-card reveal reveal-delay-1">
+            <span>02 / PROGNOSIS</span>
+            <h3>删失感知预后模型</h3>
+            <p>完成 Cox + DeepHit 主路径和 SDPM 创新路径，评估动态轨迹相对静态单时间点特征的增量价值。</p>
+            <small>C-INDEX · TIME-AUC · IBS · CALIBRATION</small>
+          </article>
+          <article class="outcome-card reveal reveal-delay-2">
+            <span>03 / REPRODUCIBILITY</span>
+            <h3>代码、权重与实验资产</h3>
+            <p>整理可复现配置、患者级划分、许可证清单、实验日志、演示系统和软件著作权申请材料。</p>
+            <small>CODE · WEIGHTS · LICENSES · REPORT</small>
           </article>
         </div>
       </section>
@@ -1041,7 +1093,7 @@
         <div class="closing-orbit orbit-closing-a" aria-hidden="true"></div>
         <div class="closing-orbit orbit-closing-b" aria-hidden="true"></div>
         <div class="closing-content reveal">
-          <span class="closing-kicker">PRISM / PROJECT 2026</span>
+          <span class="closing-kicker">SRTP / PROJECT 2026</span>
           <h2>让每一次影像，<br />都成为理解<em>下一步</em>的证据。</h2>
           <div class="closing-meta">
             <div>
@@ -1069,8 +1121,8 @@
           <circle cx="22" cy="22" r="3.2" />
         </svg>
         <span class="brand-type">
-          <strong>PRISM</strong>
-          <small>SPATIAL · TEMPORAL · SIGNAL</small>
+          <strong>SRTP</strong>
+          <small>MULTIMODAL · LONGITUDINAL · PROGNOSIS</small>
         </span>
       </a>
       <p>仅供科研展示。页面中的生成样例不构成医学诊断或治疗建议。</p>
@@ -1080,7 +1132,7 @@
     <dialog class="command-palette" id="command-palette" aria-labelledby="command-title">
       <div class="command-palette-head">
         <div>
-          <span>PRISM / COMMAND CENTER</span>
+          <span>SRTP / COMMAND CENTER</span>
           <h2 id="command-title">快速到达下一步</h2>
         </div>
         <button class="command-close" type="button" data-command-close aria-label="关闭命令面板">
@@ -1107,9 +1159,9 @@
           <span><strong>配置实验构型</strong><small>选择模态、条件与目标</small></span>
           <kbd>G B</kbd>
         </button>
-        <button type="button" data-command-target="#language">
+        <button type="button" data-command-target="#condition-lab">
           <span class="command-index">02</span>
-          <span><strong>比较语言条件编码</strong><small>查看 LLM 消融设计</small></span>
+          <span><strong>查看分阶段生成实验</strong><small>MAISI-v2 · ControlNet · Cox + DeepHit</small></span>
           <kbd>G L</kbd>
         </button>
         <button type="button" data-command-target="#route">
@@ -1143,7 +1195,7 @@
       </button>
       <div class="modal-head">
         <span>CURRENT PROTOTYPE / 2026.10</span>
-        <h2 id="modal-title">四模态生成与肿瘤轮廓叠加</h2>
+        <h2 id="modal-title">历史基线的四模态生成与轮廓叠加</h2>
       </div>
       <img
         src="./assets/current-prototype.png"

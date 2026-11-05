@@ -121,48 +121,48 @@
 
   const experiments = {
     a: {
-      status: "BASELINE / A",
-      title: "建立纵向生成的最低基线",
+      status: "HISTORICAL BASELINE / A",
+      title: "复现可对照的历史生成基线",
       description:
-        "只使用历史影像与肿瘤掩码，验证模型能否学习时间点之间的基本变化。该组不引入任何临床语义，用于判断其他条件是否真正带来增益。",
-      condition: "时间间隔 Δt",
-      coreTitle: "DIFFUSION",
-      coreCaption: "影像条件生成",
-      output: "未来影像",
-      purpose: "控制变量基线",
+        "Med-DDPM 作为独立历史基线，用于复现已有的条件生成、导出与轮廓叠加流程。它不承担纵向主线，也不作为最终模型选择依据。",
+      condition: "历史掩码条件",
+      coreTitle: "MED-DDPM",
+      coreCaption: "独立历史基线",
+      output: "对照结果",
+      purpose: "复现与历史对照",
     },
     b: {
-      status: "STRUCTURED / B",
-      title: "用简洁的表格条件建立强参照",
+      status: "OPEN BASE / B",
+      title: "用 MAISI-v2 建立开放代码底座",
       description:
-        "将治疗类别、随访间隔和必要的临床变量编码为表格向量，与影像条件联合输入。它是在当前数据条件下最稳健、最应优先验证的方案。",
-      condition: "治疗类别 + Δt",
-      coreTitle: "TABULAR COND.",
-      coreCaption: "结构化临床条件",
-      output: "影像 + 掩码",
-      purpose: "主参照模型",
+        "接入 MAISI-v2 的公开代码与权重，建立三维多模态生成的最小可运行底座，并明确上游代码、权重和许可证边界。",
+      condition: "基础影像条件",
+      coreTitle: "MAISI-V2",
+      coreCaption: "开放代码底座",
+      output: "基础生成",
+      purpose: "主线底座",
     },
     c: {
-      status: "LANGUAGE / C",
-      title: "检验语言模型是否真的有额外价值",
+      status: "LONGITUDINAL / C",
+      title: "叠加自行实现的纵向 ControlNet",
       description:
-        "只把已有结构化变量模板化为短文本，再由语言模型编码。我们不生成不存在的病情，也不使用后续信息，重点检验语言先验能否改善条件表达。",
-      condition: "模板化临床变量",
-      coreTitle: "LLM ENCODER",
-      coreCaption: "语言条件编码",
-      output: "条件轨迹",
-      purpose: "语言先验增益",
+        "借鉴 3D-GlioPREDICT 的纵向条件思想，引入历史影像、治疗信息、随访时间与肿瘤掩码，并用 Rectified Flow 构建治疗感知的未来多模态生成路径。",
+      condition: "治疗 + Δt + 掩码",
+      coreTitle: "CONTROLNET",
+      coreCaption: "Rectified Flow",
+      output: "未来多模态",
+      purpose: "生成主线",
     },
     d: {
-      status: "ROBUSTNESS / D",
-      title: "在信息不完整时保持生成稳定",
+      status: "CENSORING / D",
+      title: "从动态轨迹走向删失感知预后",
       description:
-        "随机屏蔽一个或多个 MRI 模态，并加入条件缺失场景。对比不同编码方式的性能下降幅度，验证模型在真实数据不完整时是否仍然可靠。",
-      condition: "缺失标记 + Δt",
-      coreTitle: "MASKED COND.",
-      coreCaption: "缺失条件训练",
-      output: "不确定性",
-      purpose: "跨模态鲁棒性",
+        "提取肿瘤体积、水肿范围与增强轨迹等动态特征，主路径采用 Cox + DeepHit，创新路径加入自行实现的 SDPM，并显式使用观测时间 T、事件指示 δ 与右删失处理。",
+      condition: "T + δ + 动态特征",
+      coreTitle: "COX + DEEPHIT",
+      coreCaption: "SDPM 创新路径",
+      output: "风险与校准",
+      purpose: "预后主评价",
     },
   };
 
@@ -215,7 +215,7 @@
   const conditionKeys = {
     temporal: "随访时间间隔",
     treatment: "结构化治疗变量",
-    language: "语言化条件编码",
+    controlnet: "纵向 ControlNet 分支",
     missing: "缺失模态鲁棒性",
   };
 
@@ -233,18 +233,21 @@
       modalities,
       conditions,
       object: {
-        project: "PRISM",
-        objective: ["future_mri_generation", "survival_risk"],
+        project: "SRTP",
+        base_model: "MAISI-v2",
+        objective: ["staged_generation", "dynamic_features", "censored_prognosis"],
         modalities,
         condition: {
           history: true,
           delta_t: conditions.temporal,
           treatment: conditions.treatment ? "tabular" : null,
-          language_encoder: conditions.language ? "llm_adapter" : null,
+          longitudinal_controlnet: conditions.controlnet,
           missing_robustness: conditions.missing,
         },
-        outputs: ["mri_t+n", "tumor_mask", "uncertainty"],
-        evaluation: ["dice", "c_index", "calibration"],
+        outputs: ["mri_t+n", "tumor_mask", "dynamic_features"],
+        prognosis: ["cox", "deephit", "sdpm"],
+        evaluation: ["c_index", "time_auc", "ibs", "calibration"],
+        censoring: {observed_time: "T", event_indicator: "delta"},
         split: "patient_level",
       },
     };
@@ -323,39 +326,39 @@
       badge: "FOUNDATION",
       title: "把随访数据变成可复核的实验资产",
       description:
-        "完成多模态配准、重采样、强度标准化、肿瘤亚区处理和患者级划分；建立纵向影像、治疗信息、随访间隔与删失标签的统一数据表。",
-      output: "统一数据表 + 数据字典",
+        "完成多模态配准、重采样、强度标准化、肿瘤亚区处理和患者级划分；统一记录治疗、随访间隔、观测时间 T、事件指示 δ 与右删失状态。",
+      output: "纵向数据表 + 删失字段字典",
       meter: "92%",
       meterLabel: "HIGH",
     },
     {
-      kicker: "STAGE 02 / STATIC BASELINE",
-      badge: "BASELINE",
-      title: "用 Med-DDPM 建立可比较的静态起点",
+      kicker: "STAGE 02 / OPEN GENERATION BASE",
+      badge: "MAISI-V2",
+      title: "接入 MAISI-v2 开放代码底座",
       description:
-        "复现四模态条件生成、导出、切片和轮廓叠加流程；固定数据处理与评价口径，让后续纵向模型拥有明确、可复现的参照。",
-      output: "静态生成基线 + 管线日志",
-      meter: "72%",
+        "完成 MAISI-v2 环境、预训练权重、多模态输入输出接口与许可证核验；Med-DDPM 保留为独立历史基线，不再作为当前主线。",
+      output: "开放底座 + 权重与许可清单",
+      meter: "66%",
       meterLabel: "HIGH",
     },
     {
       kicker: "STAGE 03 / LONGITUDINAL GENERATION",
       badge: "CORE",
-      title: "让时间、治疗与缺失模态成为条件",
+      title: "实现纵向 ControlNet 与 Rectified Flow",
       description:
-        "输入历史影像、掩码、Δt 与结构化治疗信息，输出下一时间点影像、肿瘤掩码和不确定性；比较双条件、语言化条件及缺失模态训练。",
-      output: "未来状态生成器 + 消融矩阵",
+        "输入历史多模态影像、肿瘤掩码、治疗信息和随访时间，生成下一时间点多模态影像；借鉴 3D-GlioPREDICT 思路比较条件组合与未来状态一致性。",
+      output: "纵向生成器 + 条件消融矩阵",
       meter: "84%",
       meterLabel: "CORE",
     },
     {
-      kicker: "STAGE 04 / PROGNOSIS COUPLING",
-      badge: "PREDICTION",
-      title: "从生成轨迹中提取动态预后信号",
+      kicker: "STAGE 04 / CENSORING-AWARE PROGNOSIS",
+      badge: "COX + DEEPHIT",
+      title: "动态特征提取与删失感知预后",
       description:
-        "构建体积变化率、水肿范围梯度和增强模式轨迹等特征，接入 Cox 或离散时间生存模型，并与静态影像基线比较增量价值。",
-      output: "风险评分 + 增量预后结果",
-      meter: "70%",
+        "构建体积变化率、水肿范围梯度和增强模式轨迹等特征，以 Cox + DeepHit 为主路径，并将自行实现的 SDPM 作为创新对照路径。",
+      output: "风险评分 + 校准与增量结果",
+      meter: "78%",
       meterLabel: "KEY",
     },
     {
@@ -363,8 +366,8 @@
       badge: "EVIDENCE",
       title: "用患者级留出集完成闭环验证",
       description:
-        "固定划分、随机种子和模型配置，完成生成质量、肿瘤一致性、生存效用与校准分析；汇总负面结果、失败样例和可复现实验材料。",
-      output: "验证报告 + 科研演示原型",
+        "固定划分、随机种子和模型配置，报告 C-index、时间依赖 AUC、Integrated Brier Score 与校准曲线；同时保留失败样例和许可边界。",
+      output: "验证报告 + 科研演示原型 + 权属说明",
       meter: "88%",
       meterLabel: "FINAL",
     },
@@ -495,7 +498,7 @@
 
       if ("commandCopy" in button.dataset) {
         const summary =
-          "PRISM｜基于多模态的脑肿瘤纵向生成与预后预测。以历史多模态 MRI、治疗信息与随访间隔为条件，生成未来影像、肿瘤掩码和不确定性，并验证动态特征的生存预后增量价值。仅用于科研验证。";
+          "SRTP｜基于多模态的脑肿瘤纵向生成与预后预测。以 MAISI-v2 开放代码为底座，叠加自行实现的纵向 ControlNet 与 Rectified Flow；提取动态特征后，通过 Cox + DeepHit 主路径和 SDPM 创新路径完成删失感知预后分析。仅用于科研验证。";
         const copied = await copyText(summary);
         button.querySelector("small").textContent = copied ? "项目摘要已复制" : "复制失败，请重试";
       }
