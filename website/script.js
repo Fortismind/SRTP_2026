@@ -157,10 +157,10 @@
       status: "CENSORING / D",
       title: "从动态轨迹走向删失感知预后",
       description:
-        "提取肿瘤体积、水肿范围与增强轨迹等动态特征，主路径采用 Cox + DeepHit，创新路径加入自行实现的 SDPM，并显式使用观测时间 T、事件指示 δ 与右删失处理。",
+        "提取肿瘤体积、水肿范围与增强轨迹等动态特征。Cox + DeepHit 为稳定主路径，SDPM 为主要生成式创新；CFM 仅在时间允许时作为小规模次级对照。",
       condition: "T + δ + 动态特征",
       coreTitle: "COX + DEEPHIT",
-      coreCaption: "SDPM 创新路径",
+      coreCaption: "SDPM 主创新 / CFM 可选",
       output: "风险与校准",
       purpose: "预后主评价",
     },
@@ -245,7 +245,11 @@
           missing_robustness: conditions.missing,
         },
         outputs: ["mri_t+n", "tumor_mask", "dynamic_features"],
-        prognosis: ["cox", "deephit", "sdpm"],
+        prognosis: {
+          stable_path: ["cox", "deephit"],
+          main_innovation: "sdpm",
+          secondary_exploration: "censored_flow_matching",
+        },
         evaluation: ["c_index", "time_auc", "ibs", "calibration"],
         censoring: {observed_time: "T", event_indicator: "delta"},
         split: "patient_level",
@@ -356,7 +360,7 @@
       badge: "COX + DEEPHIT",
       title: "动态特征提取与删失感知预后",
       description:
-        "构建体积变化率、水肿范围梯度和增强模式轨迹等特征，以 Cox + DeepHit 为主路径，并将自行实现的 SDPM 作为创新对照路径。",
+        "构建体积变化率、水肿范围梯度和增强模式轨迹等特征；Cox + DeepHit 为核心主路径，SDPM 为主要生成式创新，CFM 作为可选次级探索并列在同一阶段。",
       output: "风险评分 + 校准与增量结果",
       meter: "78%",
       meterLabel: "KEY",
@@ -366,7 +370,7 @@
       badge: "EVIDENCE",
       title: "用患者级留出集完成闭环验证",
       description:
-        "固定划分、随机种子和模型配置，报告 C-index、时间依赖 AUC、Integrated Brier Score 与校准曲线；同时保留失败样例和许可边界。",
+        "固定划分、随机种子和模型配置，完成核心预后验收。若 CFM 未复现或收益不稳定，如实记录即可，不影响 Cox + DeepHit 与 SDPM 组成的结题成果。",
       output: "验证报告 + 科研演示原型 + 权属说明",
       meter: "88%",
       meterLabel: "FINAL",
@@ -498,7 +502,7 @@
 
       if ("commandCopy" in button.dataset) {
         const summary =
-          "SRTP｜基于多模态的脑肿瘤纵向生成与预后预测。以 MAISI-v2 开放代码为底座，叠加自行实现的纵向 ControlNet 与 Rectified Flow；提取动态特征后，通过 Cox + DeepHit 主路径和 SDPM 创新路径完成删失感知预后分析。仅用于科研验证。";
+          "SRTP｜基于多模态的脑肿瘤纵向生成与预后预测。以 MAISI-v2 开放代码为底座，叠加自行实现的纵向 ControlNet 与 Rectified Flow；提取动态特征后，以 Cox + DeepHit 为稳定主路径、SDPM 为主要生成式创新，CFM 仅作时间允许时的次级探索，不承担核心验收或结题前置条件。";
         const copied = await copyText(summary);
         button.querySelector("small").textContent = copied ? "项目摘要已复制" : "复制失败，请重试";
       }

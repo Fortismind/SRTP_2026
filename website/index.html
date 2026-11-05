@@ -206,10 +206,10 @@
           </div>
         </div>
         <div class="signal-item reveal">
-          <span class="signal-number">2×</span>
+          <span class="signal-number">03</span>
           <div>
-            <strong>双路径预后</strong>
-            <small>Cox + DeepHit · SDPM</small>
+            <strong>预后路径分层</strong>
+            <small>主路径 · 主创新 · 可选探索</small>
           </div>
         </div>
       </section>
@@ -289,6 +289,27 @@
             从生成轨迹中提取的动态特征，能否为生存风险分层提供超越单时间点静态影像的<em>增量预后信息</em>？
           </blockquote>
           <div class="question-mark" aria-hidden="true">?</div>
+        </div>
+
+        <div class="research-status reveal">
+          <span>RESEARCH STATUS / METHOD POSITIONING</span>
+          <div class="research-status-grid">
+            <div>
+              <small>STABLE PATH</small>
+              <strong>Cox + DeepHit</strong>
+              <p>承担主要生存建模与核心验收，是稳定、可解释的基线主路径。</p>
+            </div>
+            <div class="is-core">
+              <small>MAIN INNOVATION</small>
+              <strong>SDPM</strong>
+              <p>团队自行实现的生成式创新路径，在稳定主路径之后进行验证。</p>
+            </div>
+            <div class="is-explore">
+              <small>SECONDARY EXPLORATION / OPTIONAL</small>
+              <strong>Censored Flow Matching / CFM</strong>
+              <p>用于探索删失结局下的连续时间流匹配；不作为核心验收指标或结题前置条件。</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -615,9 +636,9 @@
             </div>
             <span class="card-kicker">PROGNOSIS SIGNAL</span>
             <h3>动态特征与删失感知预后</h3>
-            <p>提取轨迹动态特征，主路径采用 Cox + DeepHit，创新路径加入自行实现的 SDPM，并处理右删失。</p>
+            <p>提取轨迹动态特征；Cox + DeepHit 为稳定主路径，SDPM 为主要生成式创新，CFM 仅作次级探索。</p>
             <div class="card-tags">
-              <span>COX + DEEPHIT</span><span>SDPM</span><span>T / δ</span>
+              <span>COX + DEEPHIT</span><span>SDPM</span><span>CFM / OPTIONAL</span>
             </div>
           </article>
         </div>
@@ -627,6 +648,34 @@
           <p>
             Med-DDPM 仅作为独立历史基线，用于复现、对照和展示已有原型链路；
             当前研究主线已调整为 MAISI-v2 底座与团队自行实现的纵向 ControlNet。
+          </p>
+        </div>
+
+        <div class="prognosis-branch-map reveal">
+          <div class="branch-map-head">
+            <span>PROGNOSIS INNOVATION MAP</span>
+            <span>PRIMARY TRUNK + OPTIONAL BRANCH</span>
+          </div>
+          <div class="branch-map-grid">
+            <article class="branch-map-item is-stable">
+              <small>STABLE / REQUIRED</small>
+              <strong>Cox + DeepHit</strong>
+              <span>核心生存建模与主验收</span>
+            </article>
+            <article class="branch-map-item is-primary">
+              <small>INNOVATION / PRIMARY</small>
+              <strong>SDPM</strong>
+              <span>主要生成式创新路径</span>
+            </article>
+            <article class="branch-map-item is-explore">
+              <small>EXPLORATION / OPTIONAL</small>
+              <strong>CFM</strong>
+              <span>次级删失流匹配实验</span>
+            </article>
+          </div>
+          <p>
+            CFM 与 Cox、DeepHit、SDPM 同处“删失感知预后”阶段，但不独立构成主流程，
+            不进入核心验收指标，也不是结题前置条件。仅在 SDPM 主线稳定且时间允许时开展小规模对照。
           </p>
         </div>
       </section>
@@ -691,7 +740,7 @@
             >
               <span>D</span>
               <strong>删失感知预后</strong>
-              <small>COX + DEEPHIT</small>
+              <small>COX / DEEPHIT · SDPM · CFM</small>
             </button>
           </div>
 
@@ -757,7 +806,8 @@
               <path d="M10 9v5M10 6.3v.4" />
             </svg>
             <p>
-              Med-DDPM 不会与主线成果混写；公开底座、自行实现模块、预训练权重和第三方许可证会分别说明。
+              CFM 只在 SDPM 主线稳定且时间允许时开展小规模对照；不承担核心验收指标，
+              也不是结题前置条件。
             </p>
           </div>
         </div>
@@ -902,7 +952,7 @@
           </div>
           <p>
             MAISI-v2 作为开放代码底座使用；纵向 ControlNet、Rectified Flow 条件接口、
-            SDPM 及预后耦合模块为项目自行实现部分。预训练权重和第三方依赖继续遵循各自许可证，
+            SDPM、可选 CFM 实验及预后耦合模块为项目自行实现部分。预训练权重和第三方依赖继续遵循各自许可证，
             不把公开代码或他人权重表述为本项目全部原创开源成果。
           </p>
         </div>
@@ -996,6 +1046,11 @@
             <div><i></i>Cox / DeepHit / SDPM</div>
             <div><i></i>右删失与患者级划分</div>
           </div>
+          <div class="ablation-line is-optional">
+            <span>条件性探索</span>
+            <div><i></i>仅在 SDPM 稳定且时间允许时：CFM 小规模对照</div>
+            <div><i></i>不进入核心验收，不影响结题完整性</div>
+          </div>
         </div>
       </section>
 
@@ -1043,7 +1098,7 @@
             <div class="timeline-content">
               <span>PREDICT</span>
               <h3>删失感知预后建模</h3>
-              <p>搭建 Cox + DeepHit 主路径与自研 SDPM 创新路径，完成 C-index、时间依赖 AUC、IBS 和校准分析。</p>
+              <p>完成 Cox + DeepHit 稳定主路径和自研 SDPM 创新路径；若时间允许，在 SDPM 稳定后开展小规模 CFM 对照。</p>
             </div>
             <span class="timeline-state">计划</span>
           </article>
@@ -1053,7 +1108,7 @@
             <div class="timeline-content">
               <span>VALIDATE</span>
               <h3>留出集验证与交付</h3>
-              <p>完成患者级留出集评价、代码权重许可核验、项目报告、演示材料和软件版权材料。</p>
+              <p>完成患者级留出集评价、代码权重许可核验和结题材料。即使 CFM 未复现成功，项目仍按完整成果结题。</p>
             </div>
             <span class="timeline-state">计划</span>
           </article>
@@ -1077,8 +1132,8 @@
           <article class="outcome-card reveal reveal-delay-1">
             <span>02 / PROGNOSIS</span>
             <h3>删失感知预后模型</h3>
-            <p>完成 Cox + DeepHit 主路径和 SDPM 创新路径，评估动态轨迹相对静态单时间点特征的增量价值。</p>
-            <small>C-INDEX · TIME-AUC · IBS · CALIBRATION</small>
+            <p>完成 Cox + DeepHit 稳定主路径和 SDPM 创新路径；CFM 仅在时间允许时进行小规模探索，不进入核心验收。</p>
+            <small>C-INDEX · TIME-AUC · IBS · CALIBRATION · CFM OPTIONAL</small>
           </article>
           <article class="outcome-card reveal reveal-delay-2">
             <span>03 / REPRODUCIBILITY</span>

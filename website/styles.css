@@ -2160,6 +2160,73 @@ section[id] {
   line-height: 1;
 }
 
+.research-status {
+  margin-top: 62px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.research-status > span {
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.research-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 17px;
+}
+
+.research-status-grid > div {
+  min-height: 155px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.research-status-grid > div.is-core {
+  background: rgba(156, 245, 199, 0.055);
+  border-color: rgba(156, 245, 199, 0.2);
+}
+
+.research-status-grid > div.is-explore {
+  border-style: dashed;
+  border-color: rgba(255, 137, 108, 0.24);
+}
+
+.research-status-grid small {
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: 0.08em;
+}
+
+.research-status-grid strong {
+  display: block;
+  margin-top: 25px;
+  font-size: 17px;
+  font-weight: 560;
+}
+
+.research-status-grid .is-core strong {
+  color: var(--mint);
+}
+
+.research-status-grid .is-explore strong {
+  color: var(--coral);
+}
+
+.research-status-grid p {
+  margin: 11px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
 .framework {
   border-top: 1px solid var(--line);
 }
@@ -2309,6 +2376,114 @@ section[id] {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.75;
+}
+
+.prognosis-branch-map {
+  margin-top: 26px;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(183, 163, 255, 0.055), transparent 38%),
+    rgba(12, 17, 18, 0.68);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.branch-map-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+}
+
+.branch-map-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.branch-map-grid::before {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 8%;
+  width: 84%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, var(--mint), var(--violet), var(--coral));
+  opacity: 0.28;
+}
+
+.branch-map-item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  padding: 17px;
+  background: #0d1213;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+.branch-map-item small {
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 6px;
+  letter-spacing: 0.08em;
+}
+
+.branch-map-item strong {
+  margin-top: 27px;
+  font-size: 18px;
+  font-weight: 560;
+}
+
+.branch-map-item span {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.branch-map-item.is-stable {
+  border-color: rgba(156, 245, 199, 0.2);
+}
+
+.branch-map-item.is-primary {
+  border-color: rgba(183, 163, 255, 0.26);
+  background: rgba(183, 163, 255, 0.045);
+}
+
+.branch-map-item.is-explore {
+  border-style: dashed;
+  border-color: rgba(255, 137, 108, 0.26);
+}
+
+.branch-map-item.is-stable strong {
+  color: var(--mint);
+}
+
+.branch-map-item.is-primary strong {
+  color: var(--violet);
+}
+
+.branch-map-item.is-explore strong {
+  color: var(--coral);
+}
+
+.prognosis-branch-map > p {
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding-top: 16px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  font-size: 10px;
+  line-height: 1.7;
+  text-align: center;
 }
 
 .language-lab {
@@ -3368,6 +3543,20 @@ section[id] {
   height: 4px;
   background: var(--mint);
   border-radius: 50%;
+}
+
+.ablation-line.is-optional {
+  padding-top: 14px;
+  border-top-style: dashed;
+}
+
+.ablation-line.is-optional > span {
+  color: var(--coral);
+}
+
+.ablation-line.is-optional i {
+  background: transparent;
+  border: 1px solid var(--coral);
 }
 
 .timeline {
@@ -5122,11 +5311,43 @@ section[id] {
   .outcome-card h3 {
     margin-top: 35px;
   }
+
+  .research-status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .research-status-grid > div {
+    min-height: 125px;
+  }
 }
 
 @media (max-width: 680px) {
   .baseline-note {
     margin-top: 24px;
+  }
+
+  .research-status {
+    margin-top: 45px;
+  }
+
+  .prognosis-branch-map {
+    padding: 18px;
+  }
+
+  .branch-map-head span:last-child {
+    display: none;
+  }
+
+  .branch-map-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .branch-map-grid::before {
+    display: none;
+  }
+
+  .branch-map-item {
+    min-height: 120px;
   }
 
   .license-boundary {

@@ -13,6 +13,7 @@
 - Med-DDPM 独立历史基线与真实调试图片
 - 3D-GlioPREDICT 思路借鉴与多模态轨迹生成
 - Cox + DeepHit 预后主路径及 SDPM 创新路径
+- Censored Flow Matching（CFM）次级探索与可选对照实验
 - 观测时间 `T`、事件指示 `δ` 与右删失处理
 - 影像质量与预后效用双轨评价体系
 - C-index、时间依赖 AUC、Integrated Brier Score 与校准曲线
@@ -61,6 +62,14 @@ http://localhost:8080
 4. 保存后等待 GitHub Pages 自动构建。
 
 若网页直接位于仓库根目录，则 Folder 选择 `/(root)`。
+
+## 预后路径边界
+
+- **稳定主路径**：Cox + DeepHit，承担核心建模与验收。
+- **主要生成式创新**：SDPM，在稳定主路径之后重点验证。
+- **次级探索**：Censored Flow Matching（CFM）。
+
+CFM 与 Cox、DeepHit、SDPM 同处删失感知预后阶段，但不独立构成主流程，不承担核心验收指标，也不是结题前置条件。仅在 SDPM 主线稳定且时间允许时开展小规模对照；即使 CFM 未复现成功，项目仍按 Cox + DeepHit 与 SDPM 的完整成果结题。
 
 ## 科研说明
 
